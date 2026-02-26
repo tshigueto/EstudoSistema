@@ -1,4 +1,7 @@
 import java.awt.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.time.LocalDate;
 import java.time.Year;
 import java.time.format.DateTimeFormatter;
@@ -25,7 +28,6 @@ public class Main {
 
         exibirMensagemCustomizada("<html><b>Bem-vindo ao Sistema de Logística Logrisk</b></html>", "SISTEMA", icon);
 
-        // Nome do motorista
         String nome = JOptionPane.showInputDialog(null, "Nome do Motorista:", "Cadastro", JOptionPane.QUESTION_MESSAGE);
         if (nome == null) System.exit(0);
         motorista.setNomeMotorista(nome);
@@ -57,6 +59,8 @@ public class Main {
             }
         }
         motorista.setDataNascimento(dataNascimento);
+
+        salvarNoBanco(motorista.getNomeMotorista(), motorista.getCpf(), motorista.getDataNascimento());
 
         String modelo = JOptionPane.showInputDialog(null, "Modelo do Caminhão:", "Cadastro", JOptionPane.QUESTION_MESSAGE);
         if (modelo == null) System.exit(0);
@@ -137,6 +141,30 @@ public class Main {
         );
 
         exibirMensagemCustomizada(resumo, "Resumo da Rota", icon);
+    }
+
+    public static void salvarNoBanco(String nome, String cpf, LocalDate data) {
+        String url = "jdbc:mysql://localhost:3306/logrisk_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true";
+        String usuario = "root";
+        String senha = "admin@840"; 
+
+        String sql = "INSERT INTO motoristas (nome, cpf, data_nascimento) VALUES (?, ?, ?)";
+
+        try (Connection conn = DriverManager.getConnection(url, usuario, senha);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            
+            pstmt.setString(1, nome);
+            pstmt.setString(2, cpf);
+            pstmt.setDate(3, java.sql.Date.valueOf(data));
+
+            pstmt.executeUpdate();
+            System.out.println("Motorista salvo no banco com sucesso!");
+
+            } catch (Exception e) {
+            e.printStackTrace(); 
+            JOptionPane.showMessageDialog(null, "Erro detalhado: " + e.getMessage());
+        }
+
     }
 
     public static String formatarCpf(String cpf) {
