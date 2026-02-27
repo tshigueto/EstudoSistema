@@ -1,22 +1,24 @@
+ // Source code is decompiled from a .class file using FernFlower decompiler (from Intellij IDEA).
 class Caminhao {
-    
-    private String nomeCaminhao;
-    private int anoCaminhao;
+   private String nomeCaminhao;
+   private int anoCaminhao;
 
-    public String getNomeCaminhao() {
-        return nomeCaminhao;
-    }
+   Caminhao() {
+   }
 
-    public void setNomeCaminhao(String nomeCaminhao) {
-        this.nomeCaminhao = nomeCaminhao;
-    }
+   public String getNomeCaminhao() {
+      return this.nomeCaminhao;
+   }
 
-    public int getAnoCaminhao() {
-        return anoCaminhao;
-    }
+   public void setNomeCaminhao(String var1) {
+      this.nomeCaminhao = var1;
+   }
 
-    public void setAnoCaminhao(int anoCaminhao) {
-        this.anoCaminhao = anoCaminhao;
-    }
+   public int getAnoCaminhao() {
+      return this.anoCaminhao;
+   }
+
+   public void setAnoCaminhao(int var1) {
+      this.anoCaminhao = var1;
+   }
 }
-
